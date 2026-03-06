@@ -27,16 +27,17 @@ repositories {
 }
 
 loom {
-	splitEnvironmentSourceSets()
+	// splitEnvironmentSourceSets()  // DISABLED - Testing if this causes model issues
 
 	mods {
-		"gore-magala" {
+		"goremagala" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
+			// sourceSet sourceSets.client  // DISABLED
 		}
 	}
 
 }
+
 
 fabricApi {
 	configureDataGeneration {
