@@ -9,7 +9,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ public class GoreMagala implements ModInitializer {
 
 	public static final Item GORE_HELMET = register("gore_helmet",
 			new Item.Properties()
-					// .humanoidArmor(ArmorMaterials.DIAMOND, ArmorType.HELMET)  // COMMENTED OUT - Testing if this prevents texture
+					.humanoidArmor(net.minecraft.world.item.equipment.ArmorMaterials.DIAMOND, ArmorType.HELMET)
 					.durability(ArmorType.HELMET.getDurability(15))
 	);
 
