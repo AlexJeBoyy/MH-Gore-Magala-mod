@@ -1,24 +1,45 @@
 package me.otterboy.goremagala;
 
+import me.otterboy.goremagala.items.GoreHelmetItem;
 import net.fabricmc.api.ModInitializer;
-
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.item.equipment.ArmorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GoreMagala implements ModInitializer {
 	public static final String MOD_ID = "gore-magala";
-
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	public static final Item GORE_HELMET = register("gore_helmet",
+			new Item.Properties()
+					.humanoidArmor(ArmorMaterials.DIAMOND, ArmorType.HELMET)
+					.durability(ArmorType.HELMET.getDurability(15))
+	);
+
+	private static Item register(String name, Item.Properties properties) {
+		ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(),
+				Identifier.fromNamespaceAndPath(MOD_ID, name));
+
+		properties.setId(itemKey);
+
+		Item item = new GoreHelmetItem(properties);
+
+		return Registry.register(BuiltInRegistries.ITEM, itemKey, item);
+	}
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
 		LOGGER.info("Hello Fabric world!");
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT)
+				.register((itemGroup) -> itemGroup.accept(GORE_HELMET));
 	}
 }
