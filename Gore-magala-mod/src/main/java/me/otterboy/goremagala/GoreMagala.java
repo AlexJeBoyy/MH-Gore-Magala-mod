@@ -23,7 +23,6 @@ public class GoreMagala implements ModInitializer {
 					.durability(ArmorType.HELMET.getDurability(15))
 	);
 
-	// Test item without armor properties to verify texture loading works
 	public static final Item GORE_TEST = register("gore_test",
 			new Item.Properties()
 	);
@@ -35,7 +34,6 @@ public class GoreMagala implements ModInitializer {
 
 		properties.setId(itemKey);
 
-		// Use plain Item for test, GoreHelmetItem for helmet
 		Item item = name.equals("gore_test") ? new Item(properties) : new GoreHelmetItem(properties);
 		System.out.println("GoreMagala: Created " + item.getClass().getSimpleName() + " instance");
 

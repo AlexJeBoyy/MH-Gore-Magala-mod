@@ -32,6 +32,13 @@ bin/
 
 run/
 
+# local debug artifacts
+debug-logs/
+
+# generated resources/cache
+src/main/generated/
+src/main/resources/.cache/
+
 # java
 
 hs_err_*.log
