@@ -23,10 +23,6 @@ public class GoreMagala implements ModInitializer {
 					.durability(ArmorType.HELMET.getDurability(15))
 	);
 
-	public static final Item GORE_TEST = register("gore_test",
-			new Item.Properties()
-	);
-
 	private static Item register(String name, Item.Properties properties) {
 		System.out.println("GoreMagala: Registering item: " + name);
 		ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(),
@@ -34,7 +30,9 @@ public class GoreMagala implements ModInitializer {
 
 		properties.setId(itemKey);
 
-		Item item = name.equals("gore_test") ? new Item(properties) : new GoreHelmetItem(properties);
+		Item item = name.equals("gore_helmet") ? 
+			new GoreHelmetItem(net.minecraft.world.item.equipment.ArmorMaterials.DIAMOND, ArmorType.HELMET, properties) : 
+			new Item(properties);
 		System.out.println("GoreMagala: Created " + item.getClass().getSimpleName() + " instance");
 
 		Item registered = Registry.register(BuiltInRegistries.ITEM, itemKey, item);
@@ -50,7 +48,6 @@ public class GoreMagala implements ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT)
 				.register((itemGroup) -> {
 					itemGroup.accept(GORE_HELMET);
-					itemGroup.accept(GORE_TEST);
 				});
 		System.out.println("=== GoreMagala Mod Initialized ===");
 	}

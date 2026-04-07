@@ -13,7 +13,7 @@ public class GoreHelmetModel extends GeoModel<GoreHelmetItem> {
 
     @Override
     public Identifier getModelResource(GeoRenderState state) {
-        return Identifier.fromNamespaceAndPath(GoreMagala.MOD_ID, "gore_helmet");
+        return Identifier.fromNamespaceAndPath(GoreMagala.MOD_ID, "geckolib/models/gore_helmet.geo.json");
     }
 
     @Override
@@ -25,6 +25,6 @@ public class GoreHelmetModel extends GeoModel<GoreHelmetItem> {
     public Identifier getAnimationResource(GoreHelmetItem animatable) {
         // GeckoLib 5.x scans assets/<ns>/geckolib/animations/*.animation.json
         // PREFIX_STRIPPER removes "geckolib/animations/" → cache key = "<ns>:gore_helmet"
-        return Identifier.fromNamespaceAndPath(GoreMagala.MOD_ID, "gore_helmet");
+        return Identifier.fromNamespaceAndPath(GoreMagala.MOD_ID, "geckolib/animations/gore_helmet.animation.json");
     }
 }
