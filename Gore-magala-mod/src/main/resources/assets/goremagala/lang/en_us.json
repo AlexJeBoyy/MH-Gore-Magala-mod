@@ -1,3 +1,16 @@
 {
-  "item.goremagala.gore_helmet": "Gore Magala Helmet"
+  "item.goremagala.gore_helm": "Gore Magala Helm",
+  "item.goremagala.gore_mail": "Gore Magala Mail",
+  "item.goremagala.gore_coil": "Gore Magala Coil",
+  "item.goremagala.gore_greaves": "Gore Magala Greaves",
+  "item.goremagala.gore_magala_scale": "Gore Magala Scale",
+  "item.goremagala.gore_magala_wing": "Gore Magala Wing",
+  "item.goremagala.gore_magala_gem": "Gore Magala Gem",
+  "item.goremagala.gore_magala_tail": "Gore Magala Tail",
+  "item.goremagala.gore_magala_preview_spawn_egg": "Gore Magala Preview Spawn Egg",
+  "entity.goremagala.gore_magala_preview": "Gore Magala Preview",
+  "effect.goremagala.frenzy_virus": "Frenzy Virus",
+  "item.minecraft.potion.effect.frenzy_virus": "Potion of Frenzy Virus",
+  "item.minecraft.splash_potion.effect.frenzy_virus": "Splash Potion of Frenzy Virus",
+  "item.minecraft.lingering_potion.effect.frenzy_virus": "Lingering Potion of Frenzy Virus"
 }

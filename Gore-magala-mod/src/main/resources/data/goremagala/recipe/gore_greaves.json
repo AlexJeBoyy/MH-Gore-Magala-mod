@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s s",
+    "w w"
+  ],
+  "key": {
+    "s": "goremagala:gore_magala_scale",
+    "w": "goremagala:gore_magala_wing"
+  },
+  "result": {
+    "id": "goremagala:gore_greaves",
+    "count": 1
+  }
+}
+

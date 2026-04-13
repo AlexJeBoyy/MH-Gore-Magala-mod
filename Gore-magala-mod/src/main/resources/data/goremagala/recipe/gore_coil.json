@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sgs",
+    "w w",
+    "s s"
+  ],
+  "key": {
+    "s": "goremagala:gore_magala_scale",
+    "g": "goremagala:gore_magala_gem",
+    "w": "goremagala:gore_magala_wing"
+  },
+  "result": {
+    "id": "goremagala:gore_coil",
+    "count": 1
+  }
+}
+

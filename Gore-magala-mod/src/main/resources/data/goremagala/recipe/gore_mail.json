@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w w",
+    "sgs",
+    "tst"
+  ],
+  "key": {
+    "w": "goremagala:gore_magala_wing",
+    "s": "goremagala:gore_magala_scale",
+    "g": "goremagala:gore_magala_gem",
+    "t": "goremagala:gore_magala_tail"
+  },
+  "result": {
+    "id": "goremagala:gore_mail",
+    "count": 1
+  }
+}
+

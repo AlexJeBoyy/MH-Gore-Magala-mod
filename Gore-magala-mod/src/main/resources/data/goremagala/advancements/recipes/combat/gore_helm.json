@@ -1,0 +1,73 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gore_magala_scale": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "goremagala:gore_magala_scale"
+            ]
+          }
+        ]
+      }
+    },
+    "has_gore_magala_wing": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "goremagala:gore_magala_wing"
+            ]
+          }
+        ]
+      }
+    },
+    "has_gore_magala_gem": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "goremagala:gore_magala_gem"
+            ]
+          }
+        ]
+      }
+    },
+    "has_gore_magala_tail": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "goremagala:gore_magala_tail"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "goremagala:gore_helm"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gore_magala_scale",
+      "has_gore_magala_wing",
+      "has_gore_magala_gem",
+      "has_gore_magala_tail",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "goremagala:gore_helm"
+    ]
+  }
+}
