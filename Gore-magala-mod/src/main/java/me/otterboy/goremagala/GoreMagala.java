@@ -39,6 +39,7 @@ public class GoreMagala implements ModInitializer {
 	public static final Item GORE_MAGALA_GEM = registerSimpleItem("gore_magala_gem", new Item.Properties());
 	public static final Item GORE_MAGALA_TAIL = registerSimpleItem("gore_magala_tail", new Item.Properties());
 
+	// Preview spawn egg for size checks before boss AI is implemented.
 	public static final Item GORE_MAGALA_PREVIEW_SPAWN_EGG = registerSpawnEgg(
 			"gore_magala_preview_spawn_egg",
 			ModEntityTypes.GORE_MAGALA_PREVIEW

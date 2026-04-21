@@ -1,0 +1,9 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.gore_magala_preview.idle": {
+      "loop": true
+    }
+  }
+}
+
