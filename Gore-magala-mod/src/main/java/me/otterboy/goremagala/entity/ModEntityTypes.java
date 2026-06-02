@@ -12,9 +12,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
 public final class ModEntityTypes {
-    public static final EntityType<GoreMagalaPreviewEntity> GORE_MAGALA_PREVIEW = register(
+    public static final EntityType<GoreMagalaEntity> GORE_MAGALA_PREVIEW = register(
             "gore_magala_preview",
-            EntityType.Builder.<GoreMagalaPreviewEntity>of(GoreMagalaPreviewEntity::new, MobCategory.CREATURE)
+            EntityType.Builder.<GoreMagalaEntity>of(GoreMagalaEntity::new, MobCategory.CREATURE)
                     .sized(2.4f, 2.8f)
     );
 
@@ -33,7 +33,7 @@ public final class ModEntityTypes {
     }
 
     public static void registerAttributes() {
-        FabricDefaultAttributeRegistry.register(GORE_MAGALA_PREVIEW, GoreMagalaPreviewEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(GORE_MAGALA_PREVIEW, GoreMagalaEntity.createAttributes());
     }
 }
 
