@@ -3,10 +3,11 @@ package me.otterboy.goremagala;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -30,28 +31,44 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider {
 
     @Override
     public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> biConsumer) {
-        // 1.21.11 uses Identifier.fromNamespaceAndPath
         ResourceKey<LootTable> goreMagalaLootTable = ResourceKey.create(
                 Registries.LOOT_TABLE,
                 Identifier.fromNamespaceAndPath("goremagala", "entities/gore_magala")
         );
 
+        // Safely extract the raw Item values from the new 1.21.11 Optional Holder wrappers
+        Item goreScale = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_scale")).get().value();
+        Item goreWing = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_wing")).get().value();
+        Item goreGem = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_gem")).get().value();
+
+        // Join the CompletableFuture to provide the raw Provider instance that lootingMultiplier expects
+        HolderLookup.Provider rawProvider = this.registriesLookup.join();
+
         biConsumer.accept(
                 goreMagalaLootTable,
                 LootTable.lootTable()
+                        // Pool 1: Scales (Common drop, 1-3 base, affected by looting)
                         .withPool(LootPool.lootPool()
                                 .setRolls(UniformGenerator.between(1.0f, 1.0f))
-                                .add(LootItem.lootTableItem()
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 1.0f)))
-                                        // Safely uses our captured registries field
-                                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registriesLookup, UniformGenerator.between(0.0f, 1.0f)))
+                                .add(LootItem.lootTableItem(goreScale)
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 3.0f)))
+                                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
                                 )
                         )
+                        // Pool 2: Wings (Uncommon drop, 0-1 base, affected by looting)
+                        .withPool(LootPool.lootPool()
+                                .setRolls(UniformGenerator.between(1.0f, 1.0f))
+                                .add(LootItem.lootTableItem(goreWing)
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0f, 1.0f)))
+                                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
+                                )
+                        )
+                        // Pool 3: Gore Magala Gem (Rare drop, player-kill only)
                         .withPool(LootPool.lootPool()
                                 .setRolls(UniformGenerator.between(1.0f, 1.0f))
                                 .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                                .add(LootItem.lootTableItem(Items.OBSIDIAN)
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0f, 5.0f)))
+                                .add(LootItem.lootTableItem(goreGem)
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0f, 1.0f)))
                                 )
                         )
         );
