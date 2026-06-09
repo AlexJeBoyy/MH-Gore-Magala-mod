@@ -3,6 +3,7 @@
 	"package": "me.otterboy.goremagala.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"GoreMagalaLootTableMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

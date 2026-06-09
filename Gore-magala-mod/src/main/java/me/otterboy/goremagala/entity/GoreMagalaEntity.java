@@ -10,6 +10,8 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
@@ -21,12 +23,15 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
 
     public GoreMagalaEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
+        System.out.println("[GOREMAGALA-DEBUG] ✓ GoreMagalaEntity constructor called!");
+        System.out.println("[GOREMAGALA-DEBUG] Entity class: " + this.getClass().getSimpleName());
+        System.out.println("[GOREMAGALA-DEBUG] Entity type: " + entityType.toString());
 //        this.setNoAi(true); // Commented out to allow natural movement
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 250.0)
+                .add(Attributes.MAX_HEALTH, 10.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
                 .add(Attributes.ATTACK_DAMAGE, 9.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
@@ -61,4 +66,18 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
         return this.geoCache;
     }
 
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        // DEBUG TRACE 1: We reached the entity loot-drop hook.
+        System.out.println("[GOREMAGALA-DEBUG-LOOT] dropCustomDeathLoot() called for GoreMagalaEntity");
+        System.out.println("[GOREMAGALA-DEBUG-LOOT] recentlyHit=" + recentlyHit + ", killer=" + (this.getLastHurtByMob() == null ? "null" : this.getLastHurtByMob().getClass().getSimpleName()));
+
+        // DEBUG TRACE 2: Confirm we are still in loot-drop execution path.
+        System.out.println("[GOREMAGALA-DEBUG-LOOT] entering super.dropCustomDeathLoot for loot-table processing");
+
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+
+        // DEBUG TRACE 3: Super call finished (loot table was processed if allowed).
+        System.out.println("[GOREMAGALA-DEBUG-LOOT] super.dropCustomDeathLoot() finished");
+    }
 }

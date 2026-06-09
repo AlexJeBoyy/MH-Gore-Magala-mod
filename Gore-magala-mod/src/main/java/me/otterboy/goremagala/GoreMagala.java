@@ -39,10 +39,10 @@ public class GoreMagala implements ModInitializer {
 	public static final Item GORE_MAGALA_GEM = registerSimpleItem("gore_magala_gem", new Item.Properties());
 	public static final Item GORE_MAGALA_TAIL = registerSimpleItem("gore_magala_tail", new Item.Properties());
 
-	// Preview spawn egg for size checks before boss AI is implemented.
-	public static final Item GORE_MAGALA_PREVIEW_SPAWN_EGG = registerSpawnEgg(
-			"gore_magala_preview_spawn_egg",
-			ModEntityTypes.GORE_MAGALA_PREVIEW
+	// Spawn egg for Gore Magala entity.
+	public static final Item GORE_MAGALA_SPAWN_EGG = registerSpawnEgg(
+			"gore_magala_spawn_egg",
+			ModEntityTypes.GORE_MAGALA
 	);
 
 	private static Item registerSimpleItem(String name, Item.Properties properties) {
@@ -127,6 +127,8 @@ public class GoreMagala implements ModInitializer {
 		ModEntityTypes.registerModEntityTypes();
 		ModEntityTypes.registerAttributes();
 
+		GoreMagalaDeathHandler.register();
+
 		FrenzyEffects.register();
 		FrenzyPotions.register();
 
@@ -146,7 +148,7 @@ public class GoreMagala implements ModInitializer {
 					itemGroup.accept(GORE_MAGALA_TAIL);
 				});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS)
-				.register(itemGroup -> itemGroup.accept(GORE_MAGALA_PREVIEW_SPAWN_EGG));
+	ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS)
+			.register(itemGroup -> itemGroup.accept(GORE_MAGALA_SPAWN_EGG));
 	}
 }

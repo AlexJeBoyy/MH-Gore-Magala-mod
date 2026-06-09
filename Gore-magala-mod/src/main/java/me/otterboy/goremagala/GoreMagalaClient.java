@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 public class GoreMagalaClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(ModEntityTypes.GORE_MAGALA_PREVIEW, GoreMagalaPreviewRenderer::new);
+        EntityRendererRegistry.register(ModEntityTypes.GORE_MAGALA, GoreMagalaPreviewRenderer::new);
         System.out.println("=== GoreMagalaClient: Initialized ===");
     }
 }
