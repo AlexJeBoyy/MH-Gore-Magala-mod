@@ -78,6 +78,7 @@ Ik las de officiële handleiding en herschreef al de code voor GeckoLib 5. Nu we
 ✅ Mail, Coil en Greaves craften (verschijnen als gewone items)
 ✅ Gore Magala tegenkomen in het spel
 ✅ Gore Magala aanvallen en verslaan
+✅ Gore Magala spuwt **Frenzy-virus** naar spelers (infecteert je!) ✨
 ✅ Items krijgen als je Gore Magala verslaat
 
 ---
@@ -96,11 +97,54 @@ Ik las de officiële handleiding en herschreef al de code voor GeckoLib 5. Nu we
 
 ---
 
-## 8. Samenvatting
+## 8. Final Polish Checklist (Indieningstatus)
 
-**Status: In Development** 🔧
+### ✅ Afgemaakt & Werkend
+- [x] Gore Helm (model + texture + in-game werkend)
+- [x] Mail texture gekopieerd naar mod
+- [x] Alle 4 armor items craftbaar
+- [x] Gore Magala entity AI (aanvallen, bewegen, targeting)
+- [x] Gore Magala Frenzy Attack (spuwt frenzy naar spelers) ✨ NIEUW
+- [x] Custom drops werkend
+- [x] Frenzy status effect werkend
+- [x] Game start zonder crashes
 
-De mod is functioneel: je kan het harnas craften, Gore Magala tegenkomen en aanvallen. De basis zit er in, maar het ontbreekt nog aan visuele details zoals 3D-modellen en animaties.
+### ❌ Niet Afgemaakt (Intentioneel)
+- [ ] Coil & Greaves texturen (ontbreken sprites)
+- [ ] Coil & Greaves 3D-modellen
+- [ ] Gore Magala textuur
+- [ ] Gore Magala 3D-model volledig (vleugels, detail)
+- [ ] Boss animaties
+- [ ] Frenzy HUD display
+- [ ] Switch Axe wapen
+- [ ] Custom boss geluiden
 
-**Volgende stap:** Afmaken van de armor-modellen en Gore Magala's uiterlijk.
+### 📊 Completion Status
+
+| Component | % Klaar | Werkend? | Visueel? |
+|-----------|---------|----------|----------|
+| Gore Helm Armor | 100% | ✅ | ✅ |
+| Gore Mail Armor | 60% | ✅ | ✅ (texture) |
+| Gore Coil Armor | 40% | ✅ | ❌ (placeholder) |
+| Gore Greaves Armor | 40% | ✅ | ❌ (placeholder) |
+| Gore Magala Boss | 60% | ✅ | ❌ (geen texture) |
+| Frenzy Effect | 85% | ✅ | ⚠️ (geen HUD) |
+
+---
+
+## 9. EINDOPMERKING
+
+**Wat het project kan:**
+✅ Minecraft starten zonder crashes
+✅ Gore Helm dragen en zien
+✅ Alle 4 armor pieces craften en dragen
+✅ Gore Magala tegenkomen en bestrijden
+✅ Gore Magala spuwt Frenzy-virus naar spelers (infecteert!) ✨
+✅ Rewards krijgen voor het verslaan van Gore Magala
+✅ Frenzy-virus effect krijgen en testen
+
+**Wat het project NIET kan:**
+❌ Visueel perfecte texturen op alle armor pieces
+❌ Fluïde animaties op de boss
+❌ Advanced features (Switch Axe, enraged mode)
 
