@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "goremagala:item/gore_helm"
+    "layer0": "goremagala:item/gore_mail"
   }
 }
 
