@@ -10,23 +10,16 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
-
 
 public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public GoreMagalaEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
-        System.out.println("[GOREMAGALA-DEBUG] ✓ GoreMagalaEntity constructor called!");
-        System.out.println("[GOREMAGALA-DEBUG] Entity class: " + this.getClass().getSimpleName());
-        System.out.println("[GOREMAGALA-DEBUG] Entity type: " + entityType.toString());
-//        this.setNoAi(true); // Commented out to allow natural movement
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -42,11 +35,13 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.2D, true));
-        this.goalSelector.addGoal(1, new FrenzyAttackGoal(this)); 
-
-        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new LeapAttackGoal(this));
+        this.goalSelector.addGoal(1, new PotionThrowGoal(this));
+        this.goalSelector.addGoal(2, new FrenzyBurstGoal(this));
+        this.goalSelector.addGoal(3, new FrenzyAttackGoal(this));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal(this));
@@ -55,7 +50,26 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        // Allow natural AI-driven movement
+        if (!this.level().isClientSide()) {
+            this.breakLeavesNearby();
+        }
+    }
+
+    /**
+     * Breaks leaf blocks in a 2-block radius so Gore Magala can move through foliage.
+     */
+    private void breakLeavesNearby() {
+        net.minecraft.core.BlockPos entityPos = this.blockPosition();
+        for (int x = -2; x <= 2; x++) {
+            for (int y = -2; y <= 2; y++) {
+                for (int z = -2; z <= 2; z++) {
+                    net.minecraft.core.BlockPos checkPos = entityPos.offset(x, y, z);
+                    if (this.level().getBlockState(checkPos).is(net.minecraft.tags.BlockTags.LEAVES)) {
+                        this.level().destroyBlock(checkPos, true);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -65,20 +79,5 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.geoCache;
-    }
-
-    @Override
-    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
-        // DEBUG TRACE 1: We reached the entity loot-drop hook.
-        System.out.println("[GOREMAGALA-DEBUG-LOOT] dropCustomDeathLoot() called for GoreMagalaEntity");
-        System.out.println("[GOREMAGALA-DEBUG-LOOT] recentlyHit=" + recentlyHit + ", killer=" + (this.getLastHurtByMob() == null ? "null" : this.getLastHurtByMob().getClass().getSimpleName()));
-
-        // DEBUG TRACE 2: Confirm we are still in loot-drop execution path.
-        System.out.println("[GOREMAGALA-DEBUG-LOOT] entering super.dropCustomDeathLoot for loot-table processing");
-
-        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
-
-        // DEBUG TRACE 3: Super call finished (loot table was processed if allowed).
-        System.out.println("[GOREMAGALA-DEBUG-LOOT] super.dropCustomDeathLoot() finished");
     }
 }

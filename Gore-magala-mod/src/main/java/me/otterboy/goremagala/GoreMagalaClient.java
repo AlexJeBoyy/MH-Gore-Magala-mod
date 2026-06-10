@@ -9,6 +9,5 @@ public class GoreMagalaClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModEntityTypes.GORE_MAGALA, GoreMagalaPreviewRenderer::new);
-        System.out.println("=== GoreMagalaClient: Initialized ===");
     }
 }

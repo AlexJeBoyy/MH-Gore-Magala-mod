@@ -9,22 +9,21 @@ import me.otterboy.goremagala.frenzy.FrenzyEffects;
 import java.util.List;
 
 /**
- * Applies Frenzy Virus to all players within 16 blocks periodically.
+ * Periodically applies the Frenzy Virus splash effect to a random nearby player.
  */
-public class FrenzyAttackGoal extends Goal {
+public class PotionThrowGoal extends Goal {
 
     private final GoreMagalaEntity gore;
-    private final double detectionRange = 16.0D;
+    private final double detectionRange = 24.0D;
     private int cooldown = 0;
     private final int cooldownMax = 60;  // 3 seconds
 
-    public FrenzyAttackGoal(GoreMagalaEntity gore) {
+    public PotionThrowGoal(GoreMagalaEntity gore) {
         this.gore = gore;
     }
 
     @Override
     public boolean canUse() {
-        if (this.cooldown > 0) return false;
         return !this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox()).isEmpty();
     }
 
@@ -34,10 +33,14 @@ public class FrenzyAttackGoal extends Goal {
             this.cooldown--;
             return;
         }
-        for (Player player : this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox())) {
-            player.addEffect(new MobEffectInstance(FrenzyEffects.FRENZY_VIRUS, 100, 0, false, true));
+        if (this.gore.getRandom().nextFloat() < 0.15f) {
+            List<Player> nearbyPlayers = this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox());
+            if (!nearbyPlayers.isEmpty()) {
+                Player target = nearbyPlayers.get(this.gore.getRandom().nextInt(nearbyPlayers.size()));
+                target.addEffect(new MobEffectInstance(FrenzyEffects.FRENZY_VIRUS, 100, 0, false, true));
+                this.cooldown = this.cooldownMax;
+            }
         }
-        this.cooldown = this.cooldownMax;
     }
 
     private AABB detectionBox() {

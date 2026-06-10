@@ -127,8 +127,6 @@ public class GoreMagala implements ModInitializer {
 		ModEntityTypes.registerModEntityTypes();
 		ModEntityTypes.registerAttributes();
 
-		GoreMagalaDeathHandler.register();
-
 		FrenzyEffects.register();
 		FrenzyPotions.register();
 

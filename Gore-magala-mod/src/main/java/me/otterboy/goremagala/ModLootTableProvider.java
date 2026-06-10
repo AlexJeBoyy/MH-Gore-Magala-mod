@@ -36,44 +36,46 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider {
                 Identifier.fromNamespaceAndPath("goremagala", "entities/gore_magala")
         );
 
-        // Safely extract the raw Item values from the new 1.21.11 Optional Holder wrappers
-        Item goreScale = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_scale")).get().value();
-        Item goreWing = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_wing")).get().value();
-        Item goreGem = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_gem")).get().value();
+        try {
+            Item goreScale = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_scale")).get().value();
+            Item goreWing = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_wing")).get().value();
+            Item goreGem = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_gem")).get().value();
 
-        // Join the CompletableFuture to provide the raw Provider instance that lootingMultiplier expects
-        HolderLookup.Provider rawProvider = this.registriesLookup.join();
+            HolderLookup.Provider rawProvider = this.registriesLookup.join();
 
-        biConsumer.accept(
-                goreMagalaLootTable,
-                LootTable.lootTable()
-                        // Pool 1: Scales (Common drop, 1-3 base, affected by looting)
-                        .withPool(LootPool.lootPool()
-                                .setRolls(UniformGenerator.between(1.0f, 1.0f))
-                                .add(LootItem.lootTableItem(goreScale)
-                                        .setWeight(10)
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 3.0f)))
-                                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
-                                )
-                        )
-                        // Pool 2: Wings (Uncommon drop, 1-2 base, affected by looting)
-                        .withPool(LootPool.lootPool()
-                                .setRolls(UniformGenerator.between(1.0f, 1.0f))
-                                .add(LootItem.lootTableItem(goreWing)
-                                        .setWeight(4)
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 2.0f)))
-                                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
-                                )
-                        )
-                        // Pool 3: Gore Magala Gem (Rare drop, player-kill only)
-                        .withPool(LootPool.lootPool()
-                                .setRolls(UniformGenerator.between(1.0f, 1.0f))
-                                .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                                .add(LootItem.lootTableItem(goreGem)
-                                        .setWeight(1)
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0f, 1.0f)))
-                                )
-                        )
-        );
+            biConsumer.accept(
+                    goreMagalaLootTable,
+                    LootTable.lootTable()
+                            // Pool 1: Scales (Common drop, 1-3 base, affected by looting)
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(UniformGenerator.between(1.0f, 1.0f))
+                                    .add(LootItem.lootTableItem(goreScale)
+                                            .setWeight(10)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 3.0f)))
+                                            .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
+                                    )
+                            )
+                            // Pool 2: Wings (Uncommon drop, 1-2 base, affected by looting)
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(UniformGenerator.between(1.0f, 1.0f))
+                                    .add(LootItem.lootTableItem(goreWing)
+                                            .setWeight(4)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 2.0f)))
+                                            .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
+                                    )
+                            )
+                            // Pool 3: Gore Magala Gem (Rare drop, player-kill only)
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(UniformGenerator.between(1.0f, 1.0f))
+                                    .when(LootItemKilledByPlayerCondition.killedByPlayer())
+                                    .add(LootItem.lootTableItem(goreGem)
+                                            .setWeight(1)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0f, 1.0f)))
+                                    )
+                            )
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate Gore Magala loot table", e);
+        }
     }
 }

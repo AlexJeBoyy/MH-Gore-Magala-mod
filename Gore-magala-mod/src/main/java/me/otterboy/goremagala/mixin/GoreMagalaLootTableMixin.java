@@ -12,37 +12,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
+/**
+ * Injects the Gore Magala loot table into the entity on death.
+ */
 @Mixin(Mob.class)
 public class GoreMagalaLootTableMixin {
 
     @Inject(method = "getLootTable", at = @At("HEAD"), cancellable = true)
     private void goremagala$getLootTable(CallbackInfoReturnable<Optional<ResourceKey<LootTable>>> cir) {
-        // DEBUG: Trace all getLootTable calls
         Mob self = (Mob) (Object) this;
-        String className = self.getClass().getSimpleName();
-        String fullClassName = self.getClass().getName();
-
-        System.out.println("[GOREMAGALA-DEBUG] getLootTable() called on entity: " + className + " (Full: " + fullClassName + ")");
-
-        // DEBUG: Check if it's our entity
-        if ("GoreMagalaEntity".equals(className)) {
-            System.out.println("[GOREMAGALA-DEBUG] ✓ Matched GoreMagalaEntity! Setting loot table.");
-            ResourceKey<LootTable> lootTableKey = ResourceKey.create(
+        if ("GoreMagalaEntity".equals(self.getClass().getSimpleName())) {
+            cir.setReturnValue(Optional.of(ResourceKey.create(
                     Registries.LOOT_TABLE,
                     Identifier.fromNamespaceAndPath("goremagala", "entities/gore_magala")
-            );
-            System.out.println("[GOREMAGALA-DEBUG] ✓ Loot table key created: " + lootTableKey);
-            cir.setReturnValue(Optional.of(lootTableKey));
-            System.out.println("[GOREMAGALA-DEBUG] ✓ Callback return value set (wrapped in Optional)!");
-        } else {
-            System.out.println("[GOREMAGALA-DEBUG] ✗ Not a GoreMagalaEntity, skipping");
+            )));
         }
     }
 }
-
-
-
-
-
-
-
