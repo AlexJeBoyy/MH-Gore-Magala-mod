@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "killed_gore_magala": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "goremagala:gore_magala"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "killed_gore_magala"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "goremagala:gore_helm",
+      "goremagala:gore_mail",
+      "goremagala:gore_coil",
+      "goremagala:gore_greaves"
+    ]
+  }
+}

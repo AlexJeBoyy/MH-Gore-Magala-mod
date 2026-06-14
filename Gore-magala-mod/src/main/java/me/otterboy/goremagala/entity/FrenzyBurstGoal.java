@@ -36,9 +36,10 @@ public class FrenzyBurstGoal extends Goal {
             this.cooldown--;
             return;
         }
-        if (this.gore.getRandom().nextFloat() < 0.03f) {
+        if (this.gore.canUseSpecialAttack() && this.gore.getRandom().nextFloat() < 0.03f) {
             this.performFrenzyBurst();
             this.cooldown = this.cooldownMax;
+            this.gore.triggerSpecialAttackCooldown(70);
         }
     }
 
@@ -83,4 +84,3 @@ public class FrenzyBurstGoal extends Goal {
         );
     }
 }
-

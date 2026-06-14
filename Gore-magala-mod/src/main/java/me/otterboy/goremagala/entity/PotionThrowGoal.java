@@ -33,12 +33,13 @@ public class PotionThrowGoal extends Goal {
             this.cooldown--;
             return;
         }
-        if (this.gore.getRandom().nextFloat() < 0.15f) {
+        if (this.gore.canUseSpecialAttack() && this.gore.getRandom().nextFloat() < 0.15f) {
             List<Player> nearbyPlayers = this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox());
             if (!nearbyPlayers.isEmpty()) {
                 Player target = nearbyPlayers.get(this.gore.getRandom().nextInt(nearbyPlayers.size()));
                 target.addEffect(new MobEffectInstance(FrenzyEffects.FRENZY_VIRUS, 100, 0, false, true));
                 this.cooldown = this.cooldownMax;
+                this.gore.triggerSpecialAttackCooldown(40);
             }
         }
     }

@@ -17,6 +17,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    // Shared lock so only one special attack can fire in a short window.
+    private int specialAttackCooldownTicks = 60;
 
     public GoreMagalaEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -24,7 +26,7 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
 
     public static AttributeSupplier.Builder createAttributes() {
         return PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 10.0)
+                .add(Attributes.MAX_HEALTH, 60.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
                 .add(Attributes.ATTACK_DAMAGE, 9.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
@@ -36,12 +38,12 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.2D, true));
         this.goalSelector.addGoal(1, new LeapAttackGoal(this));
-        this.goalSelector.addGoal(1, new PotionThrowGoal(this));
-        this.goalSelector.addGoal(2, new FrenzyBurstGoal(this));
-        this.goalSelector.addGoal(3, new FrenzyAttackGoal(this));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new PotionThrowGoal(this));
+        this.goalSelector.addGoal(3, new FrenzyBurstGoal(this));
+        this.goalSelector.addGoal(4, new FrenzyAttackGoal(this));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal(this));
@@ -51,8 +53,19 @@ public class GoreMagalaEntity extends PathfinderMob implements GeoEntity {
     public void tick() {
         super.tick();
         if (!this.level().isClientSide()) {
+            if (this.specialAttackCooldownTicks > 0) {
+                this.specialAttackCooldownTicks--;
+            }
             this.breakLeavesNearby();
         }
+    }
+
+    public boolean canUseSpecialAttack() {
+        return this.specialAttackCooldownTicks <= 0;
+    }
+
+    public void triggerSpecialAttackCooldown(int ticks) {
+        this.specialAttackCooldownTicks = Math.max(this.specialAttackCooldownTicks, ticks);
     }
 
     /**

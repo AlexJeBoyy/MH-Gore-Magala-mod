@@ -6,17 +6,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import me.otterboy.goremagala.frenzy.FrenzyEffects;
 
-import java.util.List;
-
 /**
- * Applies Frenzy Virus to all players within 16 blocks periodically.
+ * Applies Frenzy Virus to nearby players periodically.
  */
 public class FrenzyAttackGoal extends Goal {
 
     private final GoreMagalaEntity gore;
     private final double detectionRange = 16.0D;
     private int cooldown = 0;
-    private final int cooldownMax = 60;  // 3 seconds
+    private final int cooldownMax = 100;  // 5 seconds
 
     public FrenzyAttackGoal(GoreMagalaEntity gore) {
         this.gore = gore;
@@ -24,7 +22,6 @@ public class FrenzyAttackGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.cooldown > 0) return false;
         return !this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox()).isEmpty();
     }
 
@@ -34,10 +31,16 @@ public class FrenzyAttackGoal extends Goal {
             this.cooldown--;
             return;
         }
+
+        if (!this.gore.canUseSpecialAttack() || this.gore.getRandom().nextFloat() >= 0.10f) {
+            return;
+        }
+
         for (Player player : this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox())) {
             player.addEffect(new MobEffectInstance(FrenzyEffects.FRENZY_VIRUS, 100, 0, false, true));
         }
         this.cooldown = this.cooldownMax;
+        this.gore.triggerSpecialAttackCooldown(40);
     }
 
     private AABB detectionBox() {

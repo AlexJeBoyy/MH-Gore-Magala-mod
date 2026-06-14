@@ -34,13 +34,14 @@ public class LeapAttackGoal extends Goal {
             this.cooldown--;
         }
 
-        // Attempt a leap at 8% chance per tick when off cooldown
-        if (this.cooldown <= 0 && this.gore.getRandom().nextFloat() < 0.08f) {
+        // Attempt a leap at 8% chance per tick when off cooldown and special lock is free.
+        if (this.cooldown <= 0 && this.gore.canUseSpecialAttack() && this.gore.getRandom().nextFloat() < 0.08f) {
             List<Player> nearbyPlayers = this.gore.level().getEntitiesOfClass(Player.class, this.detectionBox());
             if (!nearbyPlayers.isEmpty()) {
                 targetPlayer = nearbyPlayers.get(this.gore.getRandom().nextInt(nearbyPlayers.size()));
                 this.performLeap(targetPlayer);
                 this.cooldown = this.cooldownMax;
+                this.gore.triggerSpecialAttackCooldown(50);
             }
         }
 
