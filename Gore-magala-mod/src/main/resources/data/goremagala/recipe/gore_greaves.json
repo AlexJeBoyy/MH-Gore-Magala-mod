@@ -5,11 +5,11 @@
     "w w"
   ],
   "key": {
-    "s": { "item": "goremagala:gore_magala_scale" },
-    "w": { "item": "goremagala:gore_magala_wing" }
+    "s": "goremagala:gore_magala_scale",
+    "w": "goremagala:gore_magala_wing"
   },
   "result": {
-    "item": "goremagala:gore_greaves",
+    "id": "goremagala:gore_greaves",
     "count": 1
   }
 }
