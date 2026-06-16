@@ -40,6 +40,7 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider {
             Item goreScale = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_scale")).get().value();
             Item goreWing = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_wing")).get().value();
             Item goreGem = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_gem")).get().value();
+            Item goreTail = BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath("goremagala", "gore_magala_tail")).get().value();
 
             HolderLookup.Provider rawProvider = this.registriesLookup.join();
 
@@ -64,7 +65,15 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider {
                                             .apply(EnchantedCountIncreaseFunction.lootingMultiplier(rawProvider, UniformGenerator.between(0.0f, 1.0f)))
                                     )
                             )
-                            // Pool 3: Gore Magala Gem (Rare drop, player-kill only)
+                            // Pool 3: Tail (Rare drop, can be broken off)
+                            .withPool(LootPool.lootPool()
+                                    .setRolls(UniformGenerator.between(1.0f, 1.0f))
+                                    .add(LootItem.lootTableItem(goreTail)
+                                            .setWeight(2)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0f, 1.0f)))
+                                    )
+                            )
+                            // Pool 4: Gore Magala Gem (Rare drop, player-kill only)
                             .withPool(LootPool.lootPool()
                                     .setRolls(UniformGenerator.between(1.0f, 1.0f))
                                     .when(LootItemKilledByPlayerCondition.killedByPlayer())
