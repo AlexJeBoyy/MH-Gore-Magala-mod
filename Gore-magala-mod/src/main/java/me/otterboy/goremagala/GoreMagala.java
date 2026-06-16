@@ -129,6 +129,7 @@ public class GoreMagala implements ModInitializer {
 
 		FrenzyEffects.register();
 		FrenzyPotions.register();
+		RecipeDebugger.register();
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT)
 				.register(itemGroup -> {
