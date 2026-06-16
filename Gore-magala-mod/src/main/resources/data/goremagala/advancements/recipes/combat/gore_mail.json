@@ -6,7 +6,7 @@
       "conditions": {
         "items": [
           {
-            "items": "goremagala:gore_magala_scale"
+            "items": ["goremagala:gore_magala_scale"]
           }
         ]
       }
