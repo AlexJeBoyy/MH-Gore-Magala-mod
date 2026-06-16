@@ -6,21 +6,14 @@
     "tst"
   ],
   "key": {
-    "w": {
-      "item": "goremagala:gore_magala_wing"
-    },
-    "s": {
-      "item": "goremagala:gore_magala_scale"
-    },
-    "g": {
-      "item": "goremagala:gore_magala_gem"
-    },
-    "t": {
-      "item": "goremagala:gore_magala_tail"
-    }
+    "w": "goremagala:gore_magala_wing",
+    "s": "goremagala:gore_magala_scale",
+    "g": "goremagala:gore_magala_gem",
+    "t": "goremagala:gore_magala_tail"
   },
   "result": {
     "id": "goremagala:gore_mail",
     "count": 1
   }
 }
+

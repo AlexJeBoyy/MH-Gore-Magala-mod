@@ -46,6 +46,7 @@ dependencies {
 
 processResources {
 	inputs.property "version", project.version
+	exclude("data/goremagala/recipe/**")
 
 	filesMatching("fabric.mod.json") {
 		expand "version": inputs.properties.version
